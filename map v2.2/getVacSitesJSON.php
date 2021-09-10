@@ -11,7 +11,7 @@
       die("Connection failed: " . $conn->connect_error);
    } 
 
-   $sql = 'SELECT shortname, lat, lng from COVID_VACCINATION_CENTER_DATA ORDER BY shortname';
+   $sql = 'SELECT * from COVID_VACCINATION_CENTER_DATA ORDER BY shortname';
    $result = $conn->query($sql);
 
    while($row = $result->fetch_assoc()){ 

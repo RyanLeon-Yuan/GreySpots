@@ -18,7 +18,7 @@ any other head content must come *after* these tags -->
 	<style>
 		#mapid {
 			Width: 100%;
-			height: 720px;
+			height: 100vw;
 		}
         .center {
             margin: auto;
@@ -143,7 +143,7 @@ any other head content must come *after* these tags -->
 		//  to loop over  the JSON  objects
 		for (let i= 0; p[i]; i++) {
 			var marker = L.marker([p[i].lat,p[i].lng]).addTo(gsmap);
-			marker.bindPopup(p[i].shortname).openPopup();
+			marker.bindPopup(p[i].shortName).openPopup();
 			//document.getElementById("demo").innerHTML = p[i].shortname + ", " + p[i].lat + ", " + p[i].lng;
     		}
 		}

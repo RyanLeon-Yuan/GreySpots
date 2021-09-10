@@ -28,9 +28,9 @@
             height: 100%;
             width: 100vw;
         }
-		#mapid {
+		/* #mapid {
 			Width: 1280px;
-			height: 720px;
+			height: 720px; */
 		}
         /* .center {
             margin: auto;
@@ -82,7 +82,12 @@
         // autoClose: true,
         // }).addTo(gsmap);
 
-        L.Control.geocoder().addTo(gsmap);
+        // L.Control.geocoder().addTo(gsmap);
+        // Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'
+        var geocoder = L.Control.geocoder({
+            collapsed: false,
+        }).addTo(gsmap);
+
 
         // gsmap.addControl(search);
 
@@ -98,7 +103,7 @@
 
 		for (let i= 0; p[i]; i++) {
 			marker = L.marker([p[i].lat,p[i].lng]);
-			marker.bindPopup(p[i].shortname);
+			marker.bindPopup(p[i].shortName);
             layerGroup.addLayer(marker);
     		}
 
