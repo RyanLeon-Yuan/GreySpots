@@ -275,18 +275,14 @@ any other head content must come *after* these tags -->
 
   
 		for (let i= 0; d[i]; i++) {
-
-            var popup = L.popup()
-                    .setContent('<h2>' + d[i].site_name + '</\h2>'+
-                    '<p><b>' + d[i].instructions + '</b><br>'+
-                    '<b>' + d[i].postcode + '</b><br>'+
-                    '</\p>');
-                console.log(popup);
-                console.log(i);
 	
             if (d[i].category == "Testing Centers") {
 
-                
+                var popup = L.popup()
+                    .setContent('<h3>' + d[i].site_name + '</\h3>'+
+                    '<p><b>' + d[i].instructions + '</b><br>'+
+                    '<b>' + d[i].postcode + '</b><br>'+
+                    '</\p>');
                 var markerT = L.marker([d[i].latitude,d[i].longitude], {icon: greyIcon});
                 markerT.bindPopup(popup);
 

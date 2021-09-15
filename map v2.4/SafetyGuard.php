@@ -273,28 +273,19 @@ any other head content must come *after* these tags -->
 
 		//  to loop over  the JSON  objects
 
-  
-		for (let i= 0; d[i]; i++) {
 
-            var popup = L.popup()
-                    .setContent('<h2>' + d[i].site_name + '</\h2>'+
-                    '<p><b>' + d[i].instructions + '</b><br>'+
-                    '<b>' + d[i].postcode + '</b><br>'+
-                    '</\p>');
-                console.log(popup);
-                console.log(i);
+		for (let i= 0; d[i]; i++) {
 	
             if (d[i].category == "Testing Centers") {
 
-                
                 var markerT = L.marker([d[i].latitude,d[i].longitude], {icon: greyIcon});
-                markerT.bindPopup(popup);
+                markerT.bindPopup(d[i].site_name);
 
                 layerGroupT.addLayer(markerT);
             } else {
 
                 var markerE = L.marker([d[i].latitude,d[i].longitude], {icon: purpleIcon});
-                markerE.bindPopup(popup);
+                markerE.bindPopup(d[i].site_name);
                 
 
                 layerGroupE.addLayer(markerE);
