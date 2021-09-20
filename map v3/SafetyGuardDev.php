@@ -66,24 +66,25 @@ any other head content must come *after* these tags -->
             padding: 0;
             margin: 0;
         } */
-        /* html, body, #map {
+         /* html, body, #map {
             height: 100%;
             width: 100vw;
-        } */
-        .legend {
+        }  */
+         /* .legend {
             line-height: 18px;
             color: #555;
-        }
+        } */
         .legend i {
             width: 18px;
             height: 18px;
             float: left;
             margin-right: 8px;
-            opacity: 0.7;
-        }
+            opacity: 0.9;
+        } 
         .info.legend {
             background-color: white;
-            opacity: 0.7;
+            opacity: 0.9;
+            border: 2px solid #808080
 
         }
 	</style>
@@ -308,7 +309,7 @@ any other head content must come *after* these tags -->
             // inspired from https://stackoverflow.com/questions/50259942/leaflet-popup-with-multiple-fields
             var popup = L.popup({className: 'popup'})
                 .setContent('<div class="popup">'+
-                '<h3>' + p[i].shortNameClean + '</\h3>'+
+                '<h4><b>' + p[i].shortNameClean + '</\h4></b>'+
                 '<p><b>' + p[i].addressFull + '</b><br>'+
                 '<b>' + p[i].clinicStatus + '</b><br>'+
                 '<b>' + p[i].opening_hours + '</b><br>'+
@@ -341,10 +342,10 @@ any other head content must come *after* these tags -->
 
             var popup = L.popup({className: 'popup'})
                 .setContent('<div class="popup">'+
-                '<h3>' + d[i].site_name + '</\h3>'+
-                '<p><b>' + d[i].address + '</b><br>'+
+                '<h4><b>' + d[i].site_name + '</\h4></b>'+
+                '<p><b>' + d[i].address + '</b>'+ ', ' +
                 '<b>' + d[i].postcode + '</b><br>'+
-                '<b>' + d[i].instructions + '</b><br>'+
+                        d[i].instructions + '<br>'+
                 '</\p>'+
                 '</\div>');
 	
@@ -399,24 +400,44 @@ any other head content must come *after* these tags -->
             };
         }
 
+        // var legend = L.control({position: 'bottomright'});
+        // legend.onAdd = function (gsmap) {
+
+        // var div = L.DomUtil.create('div', 'info legend');
+        // labels = ['<strong>Categories</strong>'],
+        // categories = ['Vaccination Site','Exposure Site','Testing Center'];
+
+        // for (var i = 0; i < categories.length; i++) {
+
+        //         div.innerHTML += 
+        //         labels.push(
+        //             '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+        //         (categories[i] ? categories[i] : '+'));
+
+        //     }
+        //     div.innerHTML = labels.join('<br>');
+        // return div;
+        // };
+        // legend.addTo(gsmap);
+
+
         var legend = L.control({position: 'bottomright'});
+
         legend.onAdd = function (gsmap) {
 
-        var div = L.DomUtil.create('div', 'info legend');
-        labels = ['<strong>Categories</strong>'],
-        categories = ['Vaccination Site','Exposure Site','Testing Center'];
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Tier 1 Exposure Site", "Tier 2 Exposure Site", "Tier 3 Exposure Site", "Vaccination Site", "Testing Center"],
+                labels = ["/t1exp.png", "/t2exp.png","/t3exp.png", "/vacc.png", "/test.png"];
 
-        for (var i = 0; i < categories.length; i++) {
-
-                div.innerHTML += 
-                labels.push(
-                    '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
-                (categories[i] ? categories[i] : '+'));
-
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                (" <img src="+ labels[i] +" height='15' width='15'>") + grades[i] + '<br>';
             }
-            div.innerHTML = labels.join('<br>');
-        return div;
+
+            return div;
         };
+
         legend.addTo(gsmap);
 
 
