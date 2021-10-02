@@ -92,8 +92,21 @@ any other head content must come *after* these tags -->
         .info.legend {
             background-color: white;
             opacity: 0.9;
-            border: 2px solid #808080
-
+            border: 2px solid #808080;
+            padding-inline: 3px;
+            padding-block: 2px;
+        }
+        .leaflet-control-layers-expanded .leaflet-control-layers-list {
+            display: block;
+            position: relative;
+            padding: unset;
+        }
+        .leaflet-touch .leaflet-bar a {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            color: black;
+            font-size: large;
         }
 	</style>
     
@@ -184,7 +197,7 @@ any other head content must come *after* these tags -->
 
 	<script>
 		// var gsmap = L.map('map').setView([-37.81238039198305, 144.9638463625738], 8);
-        var gsmap = L.map('mapid').setView([-37.815026, 144.966874], 14);
+        var gsmap = L.map('mapid').setView([-37.815026, 144.966874], 13);
 
 
 
@@ -199,26 +212,94 @@ any other head content must come *after* these tags -->
 
         L.control.scale().addTo(gsmap);
 
-        var userLocation = L.marker([0,0]);
 
-        gsmap.locate({setView: true, maxZoom: 18});
+        // Adding the GreySpots logo at the bottom of the page. From LeafLet Documentation
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function(map) {
+                var img = L.DomUtil.create('img');
 
-		function onLocationFound(e) {
-        var radius = e.accuracy / 2;
+                img.src = '/static/picture/logowithword.png';
+                img.style.width = '200px';
 
-        L.marker(e.latlng).addTo(gsmap)
-            .bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
+                return img;
+            }
+        });
 
-        L.circle(e.latlng, radius).addTo(gsmap);
-        userLocation.setLatLng(e.latlng);
+        L.control.watermark = function(opts) {
+            return new L.Control.Watermark(opts);
         }
 
-        gsmap.on('locationfound', onLocationFound);
+        L.control.watermark({ position: 'bottomleft' }).addTo(gsmap);
 
-        L.easyButton('<i class="fas fa-house-user"></i>', function(btn, map){
-            map.panTo(userLocation.getLatLng());
-        }).addTo( gsmap );
+        // var userLocation = L.marker([0,0]);
 
+        // gsmap.locate({setView: true, maxZoom: 18});
+
+		// function onLocationFound(e) {
+        // var radius = e.accuracy;
+
+        // L.marker(e.latlng).addTo(gsmap)
+        //     .bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
+
+        // L.circle(e.latlng, radius).addTo(gsmap);
+        // userLocation.setLatLng(e.latlng);
+        // }
+
+        // gsmap.on('locationfound', onLocationFound);
+
+        // L.easyButton('<i class="fas fa-house-user"></i>', function(btn, map){
+        //     map.panTo(userLocation.getLatLng());
+        // }).addTo( gsmap );
+
+        var userMarker , userCircle;
+
+        L.easyButton({
+            states:[
+                {
+                stateName: 'unloaded',
+                icon: 'fa-location-arrow',
+                title: 'Find my location',
+                onClick: function(control){
+                    control.state("loading");
+                    control._map.on('locationfound', function(e){
+                        this.setView(e.latlng, 16); 
+
+                        // if (userMarker != null ) gsmap.removeLayer(userMarker);
+                         if (userMarker != null || userMarker != undefined) gsmap.removeLayer(userMarker);
+                        var userMarker = L.marker(e.latlng).addTo(gsmap).bindPopup("You are within " + Math.round(e.accuracy /2) + " meters from this point");
+                        // if (userCircle != null ) {gsmap.removeLayer(userCircle)};
+                        var userCircle = L.circle(e.latlng, e.accuracy /2).addTo(gsmap);
+
+                        // control.state('loaded');
+
+                    });
+                    control._map.on('locationerror', function(){
+                    control.state('error');
+                    });
+                    control._map.locate()
+                }
+                }, {
+                stateName: 'loading',
+                icon: 'fa-spinner fa-spin',
+                title: 'Finding your location..',
+                }, 
+                // {
+                // stateName: 'loaded',
+                // icon: 'fa-location-arrow',
+                // title: 'Find my location',
+                // onClick: function(control){
+                //     // gsmap.removeLayer(userMarker);
+                //     // gsmap.removeLayer(userCircle);
+                //     control.state("unloaded");
+                // }
+                // }, 
+                {
+                stateName: 'error',
+                icon: 'fa-location-xmark',
+                title: 'location not found'
+                }
+            ]
+            }).addTo(gsmap);
         // const search = new GeoSearch.GeoSearchControl({
         // provider: new GeoSearch.OpenStreetMapProvider(),
         // style: 'bar',
@@ -233,6 +314,7 @@ any other head content must come *after* these tags -->
         // Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'
         var geocoder = L.Control.geocoder({
             collapsed: false,
+            placeholder: "Enter Address or Place",
             geocoder: L.Control.Geocoder.nominatim({
                 geocodingQueryParams: {countrycodes: 'au'}
             })
@@ -504,7 +586,7 @@ any other head content must come *after* these tags -->
 
             for (var i = 0; i < grades.length; i++) {
                 div.innerHTML +=
-                (" <img src="+ labels[i] +" height='15' width='15'>") + grades[i] + '<br>';
+                ("  " + " <img src="+ labels[i] +" height='15' width='15'>") + "  " + grades[i] + "  " + '<br>';
             }
 
             return div;
