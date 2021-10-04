@@ -8,7 +8,7 @@
     <!-- The above 4 meta tags *must* come first in the head;
 any other head content must come *after* these tags -->
     <!-- Title  -->
-    <title>GreySpot - Your Guide in COVID’s New Normal</title>
+    <title>GreySpots - Your Guide in COVID’s New Normal</title>
     <link rel="shortcut icon" href="/static/picture/favicon.ico" />
     <!-- ***** All CSS Files ***** -->
     <!-- Style css -->
@@ -20,6 +20,10 @@ any other head content must come *after* these tags -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
+
+
     
     <!-- Font Awesome CDN embed code! -->
 
@@ -33,6 +37,8 @@ any other head content must come *after* these tags -->
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
     <!-- Disabling unwanted scaling of the page and set it to its actual size-->
 
@@ -55,10 +61,10 @@ any other head content must come *after* these tags -->
         }
 
         .leaflet-control-geocoder-form input {
-            font-size: 120%;
+            font-size: 100%;
             border: 0;
             background-color: transparent;
-            width: 246px;
+            width: 246px; /* for iPhone and mobile compatibility */ 
             color: black;
         }
 
@@ -109,6 +115,19 @@ any other head content must come *after* these tags -->
             color: black;
             font-size: large;
         }
+
+        /* a:not(.btn), a:link:not(.btn) {
+            font-size: xx-small;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--primary-color);
+            text-decoration: none;
+        } */
+
+        /* .leaflet-container .leaflet-control-attribution {
+            font-size: xx-small;
+        } */
+
 	</style>
     
 </head>
@@ -249,7 +268,8 @@ any other head content must come *after* these tags -->
         var gsmap = L.map('mapid', {
             center: [-37.815026, 144.966874],
             zoom: 13,
-            layers: [streetMap]
+            layers: [streetMap],
+            "tap": false // quick fix for iOS issues. Please see https://github.com/Leaflet/Leaflet/issues/7255.
         });
         
         var baseMaps = {
@@ -258,12 +278,10 @@ any other head content must come *after* these tags -->
             "Light Mode": lightMap,
             "Satellite View": satelliteMap,
             "Satellite/Street View": satelliteStretMap
-
-            
             
         };
 
-        L.control.scale().addTo(gsmap);
+        
 
 
         // Adding the GreySpots logo at the bottom of the page. From LeafLet Documentation
@@ -272,7 +290,7 @@ any other head content must come *after* these tags -->
                 var img = L.DomUtil.create('img');
 
                 img.src = '/static/picture/logowithword.png';
-                img.style.width = '200px';
+                img.style.width = '150px';
 
                 return img;
             }
@@ -283,6 +301,26 @@ any other head content must come *after* these tags -->
         }
 
         L.control.watermark({ position: 'bottomleft' }).addTo(gsmap);
+
+        L.control.scale().addTo(gsmap);
+
+
+        // Creating a leaflet Locate Control button to show user location. Control will use native 'locate' function
+        // Please see https://github.com/domoritz/leaflet-locatecontrol for more details
+        var userLocation = L.control.locate({
+            position: 'topleft',
+            icon: 'fas fa-location-arrow',
+            locateOptions: {
+                    enableHighAccuracy: true // Enabling GPS High Accuracy by default
+            },
+            strings: {
+                title: "Show my location"
+            }
+        }).addTo(gsmap);
+
+
+
+
 
         // var userLocation = L.marker([0,0]);
 
@@ -304,55 +342,60 @@ any other head content must come *after* these tags -->
         //     map.panTo(userLocation.getLatLng());
         // }).addTo( gsmap );
 
-        var userMarker , userCircle;
 
-        L.easyButton({
-            states:[
-                {
-                stateName: 'unloaded',
-                icon: 'fa-location-arrow',
-                title: 'Find my location',
-                onClick: function(control){
-                    control.state("loading");
-                    control._map.on('locationfound', function(e){
-                        this.setView(e.latlng, 16); 
 
-                        // if (userMarker != null ) gsmap.removeLayer(userMarker);
-                         if (userMarker != null || userMarker != undefined) gsmap.removeLayer(userMarker);
-                        var userMarker = L.marker(e.latlng).addTo(gsmap).bindPopup("You are within " + Math.round(e.accuracy /2) + " meters from this point");
-                        // if (userCircle != null ) {gsmap.removeLayer(userCircle)};
-                        var userCircle = L.circle(e.latlng, e.accuracy /2).addTo(gsmap);
+        // var userMarker , userCircle;
 
-                        control.state('loaded');
+        // L.easyButton({
+        //     states:[
+        //         {
+        //         stateName: 'unloaded',
+        //         icon: 'fa-location-arrow',
+        //         title: 'Find my location',
+        //         onClick: function(control){
+        //             control.state("loading");
+        //             control._map.on('locationfound', function(e){
+        //                 this.setView(e.latlng, 16); 
 
-                    });
-                    control._map.on('locationerror', function(){
-                    control.state('error');
-                    });
-                    control._map.locate()
-                }
-                }, {
-                stateName: 'loading',
-                icon: 'fa-spinner fa-spin',
-                title: 'Finding your location..',
-                }, 
-                {
-                stateName: 'loaded',
-                icon: 'fa-location-arrow',
-                // title: 'Find my location',
-                // onClick: function(control){
-                //     // gsmap.removeLayer(userMarker);
-                //     // gsmap.removeLayer(userCircle);
-                //     control.state("unloaded");
-                // }
-                }, 
-                {
-                stateName: 'error',
-                icon: 'fa-location-xmark',
-                title: 'location not found'
-                }
-            ]
-            }).addTo(gsmap);
+        //                 // if (userMarker != null ) gsmap.removeLayer(userMarker);
+        //                  if (userMarker != null || userMarker != undefined) gsmap.removeLayer(userMarker);
+        //                 var userMarker = L.marker(e.latlng).addTo(gsmap).bindPopup("You are within " + Math.round(e.accuracy /2) + " meters from this point");
+        //                 // if (userCircle != null ) {gsmap.removeLayer(userCircle)};
+        //                 var userCircle = L.circle(e.latlng, e.accuracy /2).addTo(gsmap);
+
+        //                 control.state('loaded');
+
+        //             });
+        //             control._map.on('locationerror', function(){
+        //             control.state('error');
+        //             });
+        //             control._map.locate()
+        //         }
+        //         }, {
+        //         stateName: 'loading',
+        //         icon: 'fa-spinner fa-spin',
+        //         title: 'Finding your location..',
+        //         }, 
+        //         {
+        //         stateName: 'loaded',
+        //         icon: 'fa-location-arrow',
+        //         // title: 'Find my location',
+        //         // onClick: function(control){
+        //         //     // gsmap.removeLayer(userMarker);
+        //         //     // gsmap.removeLayer(userCircle);
+        //         //     control.state("unloaded");
+        //         // }
+        //         }, 
+        //         {
+        //         stateName: 'error',
+        //         icon: 'fa-location-xmark',
+        //         title: 'location not found'
+        //         }
+        //     ]
+        //     }).addTo(gsmap);
+
+
+
         // const search = new GeoSearch.GeoSearchControl({
         // provider: new GeoSearch.OpenStreetMapProvider(),
         // style: 'bar',
@@ -367,7 +410,7 @@ any other head content must come *after* these tags -->
         // Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'
         var geocoder = L.Control.geocoder({
             collapsed: false,
-            placeholder: "Enter Address or Place",
+            placeholder: "Enter an Address",
             geocoder: L.Control.Geocoder.nominatim({
                 geocodingQueryParams: {countrycodes: 'au'}
             })

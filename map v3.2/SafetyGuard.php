@@ -8,7 +8,7 @@
     <!-- The above 4 meta tags *must* come first in the head;
 any other head content must come *after* these tags -->
     <!-- Title  -->
-    <title>GreySpot - Your Guide in COVID’s New Normal</title>
+    <title>GreySpots - Your Guide in COVID’s New Normal</title>
     <link rel="shortcut icon" href="/static/picture/favicon.ico" />
     <!-- ***** All CSS Files ***** -->
     <!-- Style css -->
@@ -18,13 +18,27 @@ any other head content must come *after* these tags -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css" />
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
+
+
     
+    <!-- Font Awesome CDN embed code! -->
+
+    <script src="https://use.fontawesome.com/2af4fcd2f7.js"></script>
+
 
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Make sure you put this AFtER leaflet.js, when using with leaflet -->
     <script src="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js"></script>
     
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 
     <!-- Disabling unwanted scaling of the page and set it to its actual size-->
 
@@ -43,13 +57,14 @@ any other head content must come *after* these tags -->
         }
         input {
             color: black;
+            width: auto;
         }
 
         .leaflet-control-geocoder-form input {
-            font-size: 120%;
+            font-size: 100%;
             border: 0;
             background-color: transparent;
-            width: 246px;
+            width: 246px; /* for iPhone and mobile compatibility */ 
             color: black;
         }
 
@@ -57,31 +72,70 @@ any other head content must come *after* these tags -->
             color: black;
         }
 
+        .popup .leaflet-popup-content {
+            --primary-t-color: rgb(91 91 91);
+        }
+
         }
         /* body {
             padding: 0;
             margin: 0;
         } */
-        /* html, body, #map {
+         /* html, body, #map {
             height: 100%;
             width: 100vw;
-        } */
-        .legend {
+        }  */
+         /* .legend {
             line-height: 18px;
             color: #555;
-        }
+        } */
         .legend i {
             width: 18px;
             height: 18px;
             float: left;
             margin-right: 8px;
-            opacity: 0.7;
-        }
+            opacity: 0.9;
+        } 
         .info.legend {
             background-color: white;
-            opacity: 0.7;
-
+            opacity: 0.9;
+            border: 2px solid #808080;
+            padding-inline: 3px;
+            padding-block: 2px;
         }
+        .leaflet-control-layers-expanded .leaflet-control-layers-list {
+            display: block;
+            position: relative;
+            padding: unset;
+        }
+        .leaflet-touch .leaflet-bar a {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            color: black;
+            font-size: large;
+        }
+
+        a:not(.btn), a:link:not(.btn) {
+            font-size: unset;
+        }
+
+        .leaflet-touch .leaflet-bar a:first-child {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            font-size: initial;
+        }
+
+        .leaflet-touch .leaflet-bar a:last-child {
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+            font-size: initial;
+        }
+
+        /* .leaflet-container .leaflet-control-attribution {
+            font-size: xx-small;
+        } */
+
 	</style>
     
 </head>
@@ -171,34 +225,184 @@ any other head content must come *after* these tags -->
 
 	<script>
 		// var gsmap = L.map('map').setView([-37.81238039198305, 144.9638463625738], 8);
-        var gsmap = L.map('mapid').setView([-37.815026, 144.966874], 14);
+        // var gsmap = L.map('mapid').setView([-37.815026, 144.966874], 13);
 
 
-
-		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+		var streetMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 			maxZoom: 20,
 			id: 'mapbox/streets-v11',
 			tileSize: 512,
 			zoomOffset: -1,
 			accessToken: 'pk.eyJ1IjoiamFsejAwMDEiLCJhIjoiY2tzeGVva3lpMGJxZDJzcDJ1dm1qZjg2eCJ9.SX_ldCklKFqp6D-JeeG05A'
-		}).addTo(gsmap);
+		});
+
+        var darkMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 20,
+			id: 'mapbox/dark-v10',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiamFsejAwMDEiLCJhIjoiY2tzeGVva3lpMGJxZDJzcDJ1dm1qZjg2eCJ9.SX_ldCklKFqp6D-JeeG05A'
+		});
+
+        var satelliteMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 20,
+			id: 'mapbox/satellite-v9',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiamFsejAwMDEiLCJhIjoiY2tzeGVva3lpMGJxZDJzcDJ1dm1qZjg2eCJ9.SX_ldCklKFqp6D-JeeG05A'
+		});
+
+        var satelliteStretMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 20,
+			id: 'mapbox/satellite-streets-v11',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiamFsejAwMDEiLCJhIjoiY2tzeGVva3lpMGJxZDJzcDJ1dm1qZjg2eCJ9.SX_ldCklKFqp6D-JeeG05A'
+		});
+
+        var lightMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 20,
+			id: 'mapbox/light-v10',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiamFsejAwMDEiLCJhIjoiY2tzeGVva3lpMGJxZDJzcDJ1dm1qZjg2eCJ9.SX_ldCklKFqp6D-JeeG05A'
+		});
+
+        var gsmap = L.map('mapid', {
+            center: [-37.815026, 144.966874],
+            zoom: 13,
+            layers: [streetMap],
+            "tap": false // quick fix for iOS issues. Please see https://github.com/Leaflet/Leaflet/issues/7255.
+        });
+        
+        var baseMaps = {
+            "Streets View": streetMap,
+            "Dark Mode": darkMap,
+            "Light Mode": lightMap,
+            "Satellite View": satelliteMap,
+            "Satellite/Street View": satelliteStretMap
+            
+        };
+
+        
+
+
+        // Adding the GreySpots logo at the bottom of the page. From LeafLet Documentation
+        L.Control.Watermark = L.Control.extend({
+            onAdd: function(map) {
+                var img = L.DomUtil.create('img');
+
+                img.src = '/static/picture/logowithword.png';
+                img.style.width = '100px';
+
+                return img;
+            }
+        });
+
+        L.control.watermark = function(opts) {
+            return new L.Control.Watermark(opts);
+        }
+
+        L.control.watermark({ position: 'bottomleft' }).addTo(gsmap);
 
         L.control.scale().addTo(gsmap);
 
 
-        gsmap.locate({setView: true, maxZoom: 18});
+        // Creating a leaflet Locate Control button to show user location. Control will use native 'locate' function
+        // Please see https://github.com/domoritz/leaflet-locatecontrol for more details
+        var userLocation = L.control.locate({
+            position: 'topleft',
+            icon: 'fas fa-location-arrow',
+            locateOptions: {
+                    enableHighAccuracy: true // Enabling GPS High Accuracy by default
+            },
+            strings: {
+                title: "Show my location"
+            }
+        }).addTo(gsmap);
 
-		function onLocationFound(e) {
-        var radius = e.accuracy;
 
-        L.marker(e.latlng).addTo(gsmap)
-            .bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
 
-        L.circle(e.latlng, radius).addTo(gsmap);
-        }
 
-        gsmap.on('locationfound', onLocationFound);
+
+        // var userLocation = L.marker([0,0]);
+
+        // gsmap.locate({setView: true, maxZoom: 18});
+
+		// function onLocationFound(e) {
+        // var radius = e.accuracy;
+
+        // L.marker(e.latlng).addTo(gsmap)
+        //     .bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
+
+        // L.circle(e.latlng, radius).addTo(gsmap);
+        // userLocation.setLatLng(e.latlng);
+        // }
+
+        // gsmap.on('locationfound', onLocationFound);
+
+        // L.easyButton('<i class="fas fa-house-user"></i>', function(btn, map){
+        //     map.panTo(userLocation.getLatLng());
+        // }).addTo( gsmap );
+
+
+
+        // var userMarker , userCircle;
+
+        // L.easyButton({
+        //     states:[
+        //         {
+        //         stateName: 'unloaded',
+        //         icon: 'fa-location-arrow',
+        //         title: 'Find my location',
+        //         onClick: function(control){
+        //             control.state("loading");
+        //             control._map.on('locationfound', function(e){
+        //                 this.setView(e.latlng, 16); 
+
+        //                 // if (userMarker != null ) gsmap.removeLayer(userMarker);
+        //                  if (userMarker != null || userMarker != undefined) gsmap.removeLayer(userMarker);
+        //                 var userMarker = L.marker(e.latlng).addTo(gsmap).bindPopup("You are within " + Math.round(e.accuracy /2) + " meters from this point");
+        //                 // if (userCircle != null ) {gsmap.removeLayer(userCircle)};
+        //                 var userCircle = L.circle(e.latlng, e.accuracy /2).addTo(gsmap);
+
+        //                 control.state('loaded');
+
+        //             });
+        //             control._map.on('locationerror', function(){
+        //             control.state('error');
+        //             });
+        //             control._map.locate()
+        //         }
+        //         }, {
+        //         stateName: 'loading',
+        //         icon: 'fa-spinner fa-spin',
+        //         title: 'Finding your location..',
+        //         }, 
+        //         {
+        //         stateName: 'loaded',
+        //         icon: 'fa-location-arrow',
+        //         // title: 'Find my location',
+        //         // onClick: function(control){
+        //         //     // gsmap.removeLayer(userMarker);
+        //         //     // gsmap.removeLayer(userCircle);
+        //         //     control.state("unloaded");
+        //         // }
+        //         }, 
+        //         {
+        //         stateName: 'error',
+        //         icon: 'fa-location-xmark',
+        //         title: 'location not found'
+        //         }
+        //     ]
+        //     }).addTo(gsmap);
+
+
 
         // const search = new GeoSearch.GeoSearchControl({
         // provider: new GeoSearch.OpenStreetMapProvider(),
@@ -214,17 +418,50 @@ any other head content must come *after* these tags -->
         // Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'
         var geocoder = L.Control.geocoder({
             collapsed: false,
+            placeholder: "Enter an Address",
+            geocoder: L.Control.Geocoder.nominatim({
+                geocodingQueryParams: {countrycodes: 'au'}
+            })
         }).addTo(gsmap);
 
 
         // gsmap.addControl(search);
 
         var layerGroupV = L.layerGroup().addTo(gsmap);
-        var layerGroupE = L.layerGroup().addTo(gsmap);
         var layerGroupT = L.layerGroup().addTo(gsmap);
+        var layerGroupET1 = L.layerGroup().addTo(gsmap);
+        var layerGroupET2 = L.layerGroup().addTo(gsmap);
+        var layerGroupET3 = L.layerGroup().addTo(gsmap);
 
-        var purpleIcon = new L.Icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+        // var purpleIcon = new L.Icon({
+        //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+        //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        //     iconSize: [25, 41],
+        //     iconAnchor: [12, 41],
+        //     popupAnchor: [1, -34],
+        //     shadowSize: [41, 41]
+        //     });
+
+        // var greyIcon = new L.Icon({
+        //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+        //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        //     iconSize: [25, 41],
+        //     iconAnchor: [12, 41],
+        //     popupAnchor: [1, -34],
+        //     shadowSize: [41, 41]
+        //     });
+        
+        var t1expIcon = new L.Icon({
+            iconUrl: '/t1exp.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+            });
+            
+        var t2expIcon = new L.Icon({
+            iconUrl: '/t2exp.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -232,8 +469,26 @@ any other head content must come *after* these tags -->
             shadowSize: [41, 41]
             });
 
-        var greyIcon = new L.Icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+        var t3expIcon = new L.Icon({
+            iconUrl: '/t3exp.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+            });
+
+        var testIcon = new L.Icon({
+            iconUrl: '/test.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+            });
+
+        var vaccIcon = new L.Icon({
+            iconUrl: '/vacc.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -253,8 +508,19 @@ any other head content must come *after* these tags -->
 
 
 		for (let i= 0; p[i]; i++) {
-			marker = L.marker([p[i].lat,p[i].lng]);
-			marker.bindPopup(p[i].shortName);
+            // inspired from https://stackoverflow.com/questions/50259942/leaflet-popup-with-multiple-fields
+            var popup = L.popup({className: 'popup'})
+                .setContent('<div class="popup">'+
+                '<h4><b>' + p[i].shortNameClean + '</\h4></b>'+
+                '<p><b>' + p[i].addressFull + '</b><br>'+
+                '<b>' + p[i].clinicStatus + '</b><br>'+
+                '<b>' + p[i].opening_hours + '</b><br>'+
+                '<b>' + p[i].walkinsTable + '</b><br>'+ 
+                '</\p>'+
+                '</\div>');
+
+			marker = L.marker([p[i].lat,p[i].lng], {icon: vaccIcon});
+			marker.bindPopup(popup);
             layerGroupV.addLayer(marker);
 
     		}
@@ -275,23 +541,26 @@ any other head content must come *after* these tags -->
 
 
 		for (let i= 0; d[i]; i++) {
+
+            var popup = L.popup({className: 'popup'})
+                .setContent('<div class="popup">'+
+                '<h4><b>' + d[i].site_name + '</\h4></b>'+
+                '<p><b>' + d[i].address + '</b>'+ ', ' +
+                '<b>' + d[i].postcode + '</b><br>'+
+                        d[i].instructions + '<br>'+
+                '</\p>'+
+                '</\div>');
 	
             if (d[i].category == "Testing Centers") {
 
-                var markerT = L.marker([d[i].latitude,d[i].longitude], {icon: greyIcon});
-                markerT.bindPopup(d[i].site_name);
+            // inspired from https://stackoverflow.com/questions/50259942/leaflet-popup-with-multiple-fields
+
+
+                var markerT = L.marker([d[i].latitude,d[i].longitude], {icon: testIcon});
+                markerT.bindPopup(popup);
 
                 layerGroupT.addLayer(markerT);
-            } else {
-
-                var markerE = L.marker([d[i].latitude,d[i].longitude], {icon: purpleIcon});
-                markerE.bindPopup(d[i].site_name);
-                
-
-                layerGroupE.addLayer(markerE);
-
-                }
-
+            }
 
             }
     	}
@@ -300,48 +569,136 @@ any other head content must come *after* these tags -->
 		xhttpall.open("get", "/getSitesJSON.php", true); 
 		xhttpall.send();
 
-        var overlay = {'Vaccination Sites': layerGroupV, 'Exposure Sites': layerGroupE, 'Testing Centers': layerGroupT};
-        L.control.layers(null, overlay).addTo(gsmap);
+        
+        // Create a new AJAX request to read data
+        var xhttpExp = new XMLHttpRequest();
+		// function 
+		xhttpExp.onload = function() { 
+		// Parsing into JSON   
+		var e = JSON.parse(this.responseText);
+
+
+		//  to loop over  the JSON  objects
+
+		for (let i= 0; e[i]; i++) {
+
+            // inspired from https://stackoverflow.com/questions/50259942/leaflet-popup-with-multiple-fields
+            var popup = L.popup({className: 'popup'})
+                .setContent('<div class="popup">'+
+                '<h4><b>' + e[i].Site_title + '</\h4></b>'+
+                '<p><b>' + e[i].Site_streetaddress + '</b>'+ ', ' +
+                '<b>' + e[i].Suburb + ' ' + e[i].Site_postcode +'</b><br>'+
+                '<b>' + e[i].Exposure_date + '</b><br>'+
+                        e[i].Advice_instruction + '<br>'+
+                '</\p>'+
+                '</\div>');
+	
+            if (e[i].Advice_title.includes("Tier 1")) {
+           
+                var markert1E = L.marker([e[i].lat,e[i].lon], {icon: t1expIcon});
+                markert1E.bindPopup(popup);
+
+                layerGroupET1.addLayer(markert1E);
+
+            } else if (e[i].Advice_title.includes("Tier 2")) {
+
+                var markert2E = L.marker([e[i].lat,e[i].lon], {icon: t2expIcon});
+                markert2E.bindPopup(popup);
+                
+
+                layerGroupET2.addLayer(markert2E);
+
+                
+            } else { // if Tier 3
+
+                var markert3E = L.marker([e[i].lat,e[i].lon], {icon: t3expIcon});
+                markert3E.bindPopup(popup);
+
+                layerGroupET3.addLayer(markert3E);
+
+                }
+        }
+           
+        }
+
+
+		xhttpExp.open("get", "https://raw.githubusercontent.com/benkaiser/covid-vic-exposure-map/master/data.json", true); 
+		xhttpExp.send();
+
+        // fetch('https://raw.githubusercontent.com/benkaiser/covid-vic-exposure-map/master/data.json')
+        //     .then(res => res.json())
+        //     .then(json => {
+        //         //json vaiable contains object with data
+        //         console.log(json)
+        //     })
+
+
+        var overlay = {'Tier 1 Exposure Site': layerGroupET1, 'Tier 2 Exposure Site': layerGroupET2, 'Tier 3 Exposure Site': layerGroupET3,
+                        'Vaccination Centers': layerGroupV, 'Testing Centers': layerGroupT };
+
+        
+
+        L.control.layers(baseMaps, overlay).addTo(gsmap);
+
 
         // This is from https://gis.stackexchange.com/questions/133630/adding-leaflet-legend
 
-        function getColor(d) {
-        return d === 'Vaccination Site'  ? "#2A81CB" :
-               d === 'Exposure Site'  ? "#9C2BCB" :
-               d === 'Testing Center' ? "#7B7B7B" :
-                                        "#ffffff";
-        }
+        // function getColor(d) {
+        // return d === 'Vaccination Site'  ? "#2A81CB" :
+        //        d === 'Exposure Site'  ? "#9C2BCB" :
+        //        d === 'Testing Center' ? "#7B7B7B" :
+        //                                 "#ffffff";
+        // }
 
-        function style(feature) {
-            return {
-                weight: 1.5,
-                opacity: 1,
-                fillOpacity: 1,
-                radius: 6,
-                fillColor: getColor(feature.properties.TypeOfIssue),
-                color: "grey"
+        // function style(feature) {
+        //     return {
+        //         weight: 1.5,
+        //         opacity: 1,
+        //         fillOpacity: 1,
+        //         radius: 6,
+        //         fillColor: getColor(feature.properties.TypeOfIssue),
+        //         color: "grey"
 
-            };
-        }
+        //     };
+        // }
+
+        // var legend = L.control({position: 'bottomright'});
+        // legend.onAdd = function (gsmap) {
+
+        // var div = L.DomUtil.create('div', 'info legend');
+        // labels = ['<strong>Categories</strong>'],
+        // categories = ['Vaccination Site','Exposure Site','Testing Center'];
+
+        // for (var i = 0; i < categories.length; i++) {
+
+        //         div.innerHTML += 
+        //         labels.push(
+        //             '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+        //         (categories[i] ? categories[i] : '+'));
+
+        //     }
+        //     div.innerHTML = labels.join('<br>');
+        // return div;
+        // };
+        // legend.addTo(gsmap);
+
 
         var legend = L.control({position: 'bottomright'});
+
         legend.onAdd = function (gsmap) {
 
-        var div = L.DomUtil.create('div', 'info legend');
-        labels = ['<strong>Categories</strong>'],
-        categories = ['Vaccination Site','Exposure Site','Testing Center'];
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Tier 1 Exposure Site", "Tier 2 Exposure Site", "Tier 3 Exposure Site", "Vaccination Center", "Testing Center"],
+                labels = ["/t1exp.png", "/t2exp.png","/t3exp.png", "/vacc.png", "/test.png"];
 
-        for (var i = 0; i < categories.length; i++) {
-
-                div.innerHTML += 
-                labels.push(
-                    '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
-                (categories[i] ? categories[i] : '+'));
-
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                ("  " + " <img src="+ labels[i] +" height='15' width='15'>") + "  " + grades[i] + "  " + '<br>';
             }
-            div.innerHTML = labels.join('<br>');
-        return div;
+
+            return div;
         };
+
         legend.addTo(gsmap);
 
 
