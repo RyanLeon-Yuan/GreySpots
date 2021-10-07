@@ -13,32 +13,29 @@ any other head content must come *after* these tags -->
     <!-- ***** All CSS Files ***** -->
     <!-- Style css -->
     <link rel="stylesheet" href="/static/css/style.css">
+    <!-- LeafLet JS Library CSS (CDN) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Geosearch function CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css" />
-
+    <!-- Control Geocoder Leaflet plugin CSS (CDN) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-
+    <!-- Control Locate Leaflet plugin CSS (CDN) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
-
-
+    <!-- Gesture Handling Leaflet plugin CSS (CDN) -->
+    <link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
     
     <!-- Font Awesome CDN embed code! -->
-
     <script src="https://use.fontawesome.com/2af4fcd2f7.js"></script>
 
-
+    <!-- LeafLet JS Library JS File (CDN) -->
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <!-- Make sure you put this AFtER leaflet.js, when using with leaflet -->
-    <script src="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js"></script>
-    
+
+    <!-- Make sure you put below plugins AFTER leaflet.js, when using with leaflet -->
+
+    <!-- Control Geocoder Leaflet plugin JS (CDN) -->
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-
+    <!-- Control Locate Leaflet plugin JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <!-- Gesture Handling Leaflet plugin JS (CDN) -->
+    <script src="//unpkg.com/leaflet-gesture-handling"></script>
 
     <!-- Disabling unwanted scaling of the page and set it to its actual size-->
 
@@ -47,13 +44,11 @@ any other head content must come *after* these tags -->
 	<style>
 		#mapid {
 			Width: 90%;
-			height: 720px;
+			height: 90vh;
 		}
         .center {
             margin: auto;
-            width: 60%;
             border: 5px solid #808080	;
-            padding: 50px;
         }
         input {
             color: black;
@@ -76,19 +71,6 @@ any other head content must come *after* these tags -->
             --primary-t-color: rgb(91 91 91);
         }
 
-        }
-        /* body {
-            padding: 0;
-            margin: 0;
-        } */
-         /* html, body, #map {
-            height: 100%;
-            width: 100vw;
-        }  */
-         /* .legend {
-            line-height: 18px;
-            color: #555;
-        } */
         .legend i {
             width: 18px;
             height: 18px;
@@ -132,9 +114,6 @@ any other head content must come *after* these tags -->
             font-size: initial;
         }
 
-        /* .leaflet-container .leaflet-control-attribution {
-            font-size: xx-small;
-        } */
 
 	</style>
     
@@ -210,7 +189,10 @@ any other head content must come *after* these tags -->
                     <!-- Breamcrumb Content -->
                     <div class="breadcrumb-content text-center">
                         <h2 class="m-0">Safety Guard</h2>
-                        <p>An integrated map platform where you can search for the Covid risks, testing points and vaccine center related to your location.</p>
+                        <p>An integrated map platform where you can: <br>
+                        Check exposure sites, testing points, and vaccination centres across Victoria and around your current location. <br>
+                        Search specific addresses in the search bar, or focus on your current location by clicking on the ‘find my location’ arrow icon. <br>
+                        Use the filters (right below the search bar) to select different map modes and show different markers separately. </p>
                     </div>
                 </div>
             </div>
@@ -218,15 +200,13 @@ any other head content must come *after* these tags -->
     </section>
     <!-- ***** Title Area End ***** -->
     <!-- ***** GSMap Area Start ***** -->
-    <section class="activity-area load-more">
-    <div id="mapid" class="center"></div>
-    </section>
+    <!-- <section class="activity-area load-more">
+    
+    </section> -->
 
+    <div id="mapid" class="center"></div>
 
 	<script>
-		// var gsmap = L.map('map').setView([-37.81238039198305, 144.9638463625738], 8);
-        // var gsmap = L.map('mapid').setView([-37.815026, 144.966874], 13);
-
 
 		var streetMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -277,6 +257,7 @@ any other head content must come *after* these tags -->
             center: [-37.815026, 144.966874],
             zoom: 13,
             layers: [streetMap],
+            gestureHandling: true, //Enable two finger movement and ctr + scroll for zooming for better UI
             "tap": false // quick fix for iOS issues. Please see https://github.com/Leaflet/Leaflet/issues/7255.
         });
         
@@ -328,104 +309,17 @@ any other head content must come *after* these tags -->
 
 
 
-
-
-        // var userLocation = L.marker([0,0]);
-
-        // gsmap.locate({setView: true, maxZoom: 18});
-
-		// function onLocationFound(e) {
-        // var radius = e.accuracy;
-
-        // L.marker(e.latlng).addTo(gsmap)
-        //     .bindPopup("You are within " + Math.round(radius) + " meters from this point").openPopup();
-
-        // L.circle(e.latlng, radius).addTo(gsmap);
-        // userLocation.setLatLng(e.latlng);
-        // }
-
-        // gsmap.on('locationfound', onLocationFound);
-
-        // L.easyButton('<i class="fas fa-house-user"></i>', function(btn, map){
-        //     map.panTo(userLocation.getLatLng());
-        // }).addTo( gsmap );
-
-
-
-        // var userMarker , userCircle;
-
-        // L.easyButton({
-        //     states:[
-        //         {
-        //         stateName: 'unloaded',
-        //         icon: 'fa-location-arrow',
-        //         title: 'Find my location',
-        //         onClick: function(control){
-        //             control.state("loading");
-        //             control._map.on('locationfound', function(e){
-        //                 this.setView(e.latlng, 16); 
-
-        //                 // if (userMarker != null ) gsmap.removeLayer(userMarker);
-        //                  if (userMarker != null || userMarker != undefined) gsmap.removeLayer(userMarker);
-        //                 var userMarker = L.marker(e.latlng).addTo(gsmap).bindPopup("You are within " + Math.round(e.accuracy /2) + " meters from this point");
-        //                 // if (userCircle != null ) {gsmap.removeLayer(userCircle)};
-        //                 var userCircle = L.circle(e.latlng, e.accuracy /2).addTo(gsmap);
-
-        //                 control.state('loaded');
-
-        //             });
-        //             control._map.on('locationerror', function(){
-        //             control.state('error');
-        //             });
-        //             control._map.locate()
-        //         }
-        //         }, {
-        //         stateName: 'loading',
-        //         icon: 'fa-spinner fa-spin',
-        //         title: 'Finding your location..',
-        //         }, 
-        //         {
-        //         stateName: 'loaded',
-        //         icon: 'fa-location-arrow',
-        //         // title: 'Find my location',
-        //         // onClick: function(control){
-        //         //     // gsmap.removeLayer(userMarker);
-        //         //     // gsmap.removeLayer(userCircle);
-        //         //     control.state("unloaded");
-        //         // }
-        //         }, 
-        //         {
-        //         stateName: 'error',
-        //         icon: 'fa-location-xmark',
-        //         title: 'location not found'
-        //         }
-        //     ]
-        //     }).addTo(gsmap);
-
-
-
-        // const search = new GeoSearch.GeoSearchControl({
-        // provider: new GeoSearch.OpenStreetMapProvider(),
-        // style: 'bar',
-        // showMarker: true,
-        // retainZoomLevel: false,
-        // animateZoom: true,
-        // updateMap: true,
-        // autoClose: true,
-        // }).addTo(gsmap);
-
         // L.Control.geocoder().addTo(gsmap);
         // Possible values are 'topleft', 'topright', 'bottomleft' or 'bottomright'
         var geocoder = L.Control.geocoder({
             collapsed: false,
             placeholder: "Enter an Address",
             geocoder: L.Control.Geocoder.nominatim({
-                geocodingQueryParams: {countrycodes: 'au'}
+                geocodingQueryParams: {countrycodes: 'au', acceptlanguage: 'en'}
             })
         }).addTo(gsmap);
 
 
-        // gsmap.addControl(search);
 
         var layerGroupV = L.layerGroup().addTo(gsmap);
         var layerGroupT = L.layerGroup().addTo(gsmap);
@@ -433,23 +327,6 @@ any other head content must come *after* these tags -->
         var layerGroupET2 = L.layerGroup().addTo(gsmap);
         var layerGroupET3 = L.layerGroup().addTo(gsmap);
 
-        // var purpleIcon = new L.Icon({
-        //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
-        //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        //     iconSize: [25, 41],
-        //     iconAnchor: [12, 41],
-        //     popupAnchor: [1, -34],
-        //     shadowSize: [41, 41]
-        //     });
-
-        // var greyIcon = new L.Icon({
-        //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
-        //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        //     iconSize: [25, 41],
-        //     iconAnchor: [12, 41],
-        //     popupAnchor: [1, -34],
-        //     shadowSize: [41, 41]
-        //     });
         
         var t1expIcon = new L.Icon({
             iconUrl: '/t1exp.png',
@@ -641,47 +518,8 @@ any other head content must come *after* these tags -->
         L.control.layers(baseMaps, overlay).addTo(gsmap);
 
 
-        // This is from https://gis.stackexchange.com/questions/133630/adding-leaflet-legend
-
-        // function getColor(d) {
-        // return d === 'Vaccination Site'  ? "#2A81CB" :
-        //        d === 'Exposure Site'  ? "#9C2BCB" :
-        //        d === 'Testing Center' ? "#7B7B7B" :
-        //                                 "#ffffff";
-        // }
-
-        // function style(feature) {
-        //     return {
-        //         weight: 1.5,
-        //         opacity: 1,
-        //         fillOpacity: 1,
-        //         radius: 6,
-        //         fillColor: getColor(feature.properties.TypeOfIssue),
-        //         color: "grey"
-
-        //     };
-        // }
-
-        // var legend = L.control({position: 'bottomright'});
-        // legend.onAdd = function (gsmap) {
-
-        // var div = L.DomUtil.create('div', 'info legend');
-        // labels = ['<strong>Categories</strong>'],
-        // categories = ['Vaccination Site','Exposure Site','Testing Center'];
-
-        // for (var i = 0; i < categories.length; i++) {
-
-        //         div.innerHTML += 
-        //         labels.push(
-        //             '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
-        //         (categories[i] ? categories[i] : '+'));
-
-        //     }
-        //     div.innerHTML = labels.join('<br>');
-        // return div;
-        // };
-        // legend.addTo(gsmap);
-
+        // Inspired from  https://gis.stackexchange.com/questions/133630/adding-leaflet-legend
+        // Adding LEgend at the bottom right
 
         var legend = L.control({position: 'bottomright'});
 
