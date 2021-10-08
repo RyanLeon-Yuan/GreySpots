@@ -1,48 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js" lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="description" content=""/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head;
-  any other head content must come *after* these tags -->
+any other head content must come *after* these tags -->
     <!-- Title  -->
-    <title>GreySpots - Your Guide in COVIDâ€™s New Normal</title>
+    <title>GreySpots - Your Guide in COVID’s New Normal</title>
     <link rel="shortcut icon" href="static/picture/favicon.ico"/>
     <!-- ***** All CSS Files ***** -->
     <!-- Style css -->
+    <link rel="stylesheet" href="static/css/style.css">
 
     <style rel="stylesheet">
-
-    #location {
-    appearance: auto;
-    border-color: dimgray;
-    }
-
-    #tspot {
-        border-radius: 25px;
-        border: 2px solid dimgray;
-    }
-    #tspot:hover { 
-        /* transform: scale(1.05); */
-        border: 2px solid #a474cf;
-        box-shadow: 0 0 10px dimgray;
-
-
-    }
-    /* .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-        background-color: #color;
-    } */
+        #nav-home-tab {
+        appearance: auto;
+        border-color: dimgray;
+        }
     </style>
-
-    <link rel="stylesheet" href="static/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="static/css/help.css">
-
-    
-    <script type="text/javascript" src="static/js/CrowdAdvisor.js"> </script>
-    <script type="text/javascript" src="static/js/jquery.min.js"> </script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
 </head>
 <body>
@@ -118,126 +95,56 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <!-- Breamcrumb Content -->
                     <div class="breadcrumb-content text-center">
-                        <h2 class="m-0">Crowd Advisor</h2>
-                        <p>Crowd Advisor provides you with detailed information about specific places in the Melbourne City area. 
-                            All you need to do is select a prefered location from the drop-down list below. 
-                            You can check all the relevant information and safely plan your visits.</p>
+                        <h2 class="m-0">Vaccinate Points</h2>
+                        <p>Here you can find the nearest Covid vaccine points to your location.
+                            Getting vaccinated is the best way of protecting yourself and others.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- ***** Title Area End ***** -->
-    <!-- ***** Contact Area Start ***** -->
-    <section class="author-area">
+    <!-- ***** Exposure Site Area Start ***** -->
+
+    <section class="activity-area load-more">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8 col-lg-7">
-                    <div class="intro text-center">
-
-                        <h3 class="mt-3 mb-0">Start by selecting a location in Melbourne:</h3>
+            <div class="row items wra">
+                <div class="col-12 col-md-6 col-lg-8">
+                    <!-- ExS Tab -->
+                    <ul class="netstorm-tab nav nav-tabs" id="nav-tab">
+                        <li>
+                            <select class="active" id="nav-home-tab" data-toggle="pill" href="#victoria"></select>
+                        </li>
+                    </ul>
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active wraBottom" id="victoria">
+                            <ul class="list-unstyled">
+                                <p>loading</p>
+                            </ul>
+                        </div>
+                    </div>
+                    <nav style="padding-left:20px;">
+                        <ul class="pagination flex-wrap"></ul>
+                    </nav>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <!-- Activity Content -->
+                    <div class="activity-content mt-5 mt-lg-0">
+                        <!-- Single Widget -->
+                        <div class="single-widget">
+                            <h5>Instruction</h5>
+                            <p>Here you can check for all the Covid-19 vaccination centres. You can select the interested suburb from the drop down list by clicking on the ‘All Victoria’ button.</p>
+                        </div>
 
                     </div>
-            
-                        <select id= "location" onchange="selectLocation()">
-                        <option disabled selected>-- Select Location --</option>
-                        <?php 
-                            include "dbCon.php";
-                            $records = mysqli_query($conn, "Select distinct(sensor_name) from greyspots.Pedisterian_count order by sensor_name"); 
-                        ?>
-                            
-                        <?php while($data = mysqli_fetch_array($records)) { 
-                        ?>
-                                <option value=" <?php echo $data['sensor_name']; ?> "> <?php echo $data['sensor_name']; ?> </option>";
-                        <?php
-                            }
-                            ?>	
-                        
-                    </select>
-
-                    <div id = "tables" style = "visibility : hidden">
-                    
-
-                    
-
-                    
-
-                    <table id = "tspot">
-
-                        
-                        <Thead>
-                            <div class="help-tip">
-                            <p>Expected Pedestrian Count of the Street in a Day: 
-                            This table shows the average expected pedestrian population in their selected street in a day.</p>
-                            </div>
-                        </Thead>
-                        <thead>
-                        <th>Pedestrian Count</th>
-                        </thead>
-
-                        <tbody id = "resultA">
-
-                        </tbody>
-                    </table>
-
-                    <table id = "tspot" name= "Extracting the Average population ( Pedestrian Count) in the selected place on a given day of the week">
-                        <thead>
-                        <div class="help-tip">
-                            <p>Expected Pedestrian Count of the Street: This table shows the average expected pedestrian population in their selected street for each day of the week.
-</p>
-                            </div>
-                        <th>Pedestrian Count</th>
-                        <th>Day of the Week </th>
-                        </thead>
-
-                        <tbody id = "resultB">
-
-                        </tbody>
-                    </table>
-
-                    <table id = "tspot" name= "Extracting the top five  Rush hours in a day">
-                        <thead>
-                        <div class="help-tip">
-                            <p>Expected Pedestrian Count: 
-                                This table shows the average expected pedestrian population ordered by most rush hours (top 5) for their selected street for a day. </p>
-                            </div>
-                        <th>Pedestrian Count</th>
-                        <th>Time of the Day</th>
-                        </thead>
-
-                        <tbody id = "resultC">
-
-                        </tbody>
-                    </table>
-
-                    <table id = "tspot" name= "Extracting the top three best times of day to visit the selected place, excluding night hours">
-                        <thead>
-                        <div class="help-tip">
-                            <p>Actual Pedestrian Count: 
-                                This table shows the actual pedestrian population ordered by least rush hours (top 3) 
-                                for their selected street (From morning 8 AM till night 10 PM)</p>
-                            </div>
-                        <th>Pedestrian Count</th>
-                        <th>Time of the Day</th>
-                        </thead>
-
-                        <tbody id = "resultD">
-
-                        </tbody>
-                    </table>
-
-
-                    </div>
-
-                    <?php mysqli_close($conn);?>
-
-                   
                 </div>
             </div>
         </div>
     </section>
-    <!-- ***** Contact Area End ***** -->
+    <!-- ***** Exposure Site Area End ***** -->
     <!--======Footer Area Start======-->
     <footer class="footer-area">
         <!-- Footer Top -->
@@ -321,7 +228,9 @@
     <!--====== Modal Responsive Menu Area End ======-->
     <!--====== Scroll To Top Area Start ======-->
     <div id="scroll-to-top" class="scroll-to-top">
-        <a href="#header" class="smooth-anchor"> <i class="fas fa-arrow-up"></i> </a>
+        <a href="#header" class="smooth-anchor">
+            <i class="fas fa-arrow-up"></i>
+        </a>
     </div>
     <!--====== Scroll To Top Area End ======-->
 </div>
@@ -338,5 +247,118 @@
 <script src="static/js/shuffle.min.js"></script>
 <!-- Active js -->
 <script src="static/js/main.js"></script>
+<script>
+    const PAGE_SIZE = 25
+    let spots = []
+    let spotsFiltered = []
+    let suburbs = []
+    let currentPage = 0
+    $(() => {
+        $('.activity-area.load-more').css('padding', '10px 0')
+        $.get('/dbvp.php', (data) => {
+            if (!data) {
+                alert('Failed to fetch data')
+                return
+            }
+            spots = JSON.parse(data)
+            spots.sort((a, b) => {
+                if (a.clinicId < b.clinicId) return 1
+                else return -1
+            })
+            suburbs = [...new Set(spots.map(spot => spot.suburb))]
+            suburbs.sort()
+            updateSuburbs()
+            spotsFiltered = spots
+            updatePages()
+        })
+    })
+
+    updateSuburbs = () => {
+        let container = $('#nav-home-tab')
+        container.empty()
+        container.append(`<option value="All Victoria"><h5 class="m-0">All Victoria</h5></option>`)
+        suburbs.forEach(suburb => {
+            container.append(
+                `<option value="${suburb}">
+                    <h5 class="m-0">${suburb}</h5>
+                </option>`)
+        })
+        container.on('change', (e) => {
+            let chosenSuburb = e.currentTarget.value
+            if (chosenSuburb == 'All Victoria') {
+                spotsFiltered = spots
+            } else {
+                spotsFiltered = spots.filter(spot => {
+                    return spot.suburb == chosenSuburb
+                })
+            }
+            updatePages()
+        })
+    }
+
+    updatePages = () => {
+        $('ul.pagination').empty()
+        $('ul.pagination').get(0).innerHTML += '<li class="page-item"><a class="page-link" href="#"><</a></li>'
+        for (let i = 0; i < Math.ceil(spotsFiltered.length / PAGE_SIZE); i++) {
+            $('ul.pagination').get(0).innerHTML += '<li class="page-item"><a class="page-link" href="#">' + (i + 1) + '</a></li>'
+        }
+        $('ul.pagination').get(0).innerHTML += '<li class="page-item"><a class="page-link" href="#">></a></li>'
+        $('.page-link').click((e) => {
+            let text = e.currentTarget.innerHTML
+            if (text == '&lt;') {
+                if (currentPage == 0) return
+                showPage(currentPage - 1)
+            } else if (text == '&gt;') {
+                if (currentPage == Math.ceil(spotsFiltered.length / PAGE_SIZE) - 1) return
+                showPage(currentPage + 1)
+            } else {
+                let index = parseInt(e.currentTarget.innerHTML) - 1
+                showPage(index)
+            }
+        })
+        showPage(0)
+    }
+
+    showPage = (index) => {
+        currentPage = index
+        let listContainer = $('.activity-area').find('ul.list-unstyled')
+        listContainer.empty()
+        let spotsCurrentPage = spotsFiltered.slice(index * PAGE_SIZE, index * PAGE_SIZE + PAGE_SIZE)
+
+        spotsCurrentPage.forEach((spot) => {
+            listContainer.get(0).innerHTML +=
+                `<li class="single-tab-list d-flex align-items-center">
+                        <div class="activity-content ml-4">
+                            <a>
+                                <h3 class="site_title mt-0 mb-2">${spot.shortName}</h3>
+                            </a>
+                        <p class="site_streetAddress m-0"><h5 class="site_title mt-0 mb-2">${spot.addressFull}</h5>
+                            <h6>${spot.opening_hours}</h6>
+                            Requirements: ${spot.bookingsTable} and ${spot.walkinsTable}
+                            <br>
+                            Accessible Parking:            ${spot.Accessible_Parking}
+                            <br>
+                            Accessible Toilets:            ${spot.Accessible_Toilets}
+                            <br>
+                            Accessible Mobility:           ${spot.Accessible_Mobility}
+                            <br>
+                            Accessible Auslan EasyEnglish: ${spot.Accessible_Auslan_EasyEnglish}
+                            <br>
+                            Accessible Assistance Animals: ${spot.Accessible_Assistance_Animals}
+                            <br>
+                            Accessible TIS Available:      ${spot.Accessible_TIS_Available}
+                            <br>
+                            Translated Material:           ${spot.Translated_Material}
+                        </p>
+                        </div>
+                    </li>`
+        })
+        let nth = 2 + currentPage
+        $('ul.pagination').find('li').removeClass('active')
+        $('ul.pagination').find('li:nth-child(' + nth + ')').addClass('active')
+    }
+</script>
 </body>
+
+
 </html>

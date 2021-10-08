@@ -1,4 +1,6 @@
 function selectLocation() {
+    
+    document.getElementById('tables').style.visibility = "visible";
 
     var selectedLoc = document.getElementById('location').value;
 

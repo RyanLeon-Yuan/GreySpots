@@ -163,6 +163,7 @@ any other head content must come *after* these tags -->
                 <ul class="navbar-nav items mx-auto">
                     <li class="nav-item"><a class="nav-link" href="https://greyspots.tech">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/SafetyGuard.php">Safety Guard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/CrowdAdvisor.php">Crowd Advisor</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/ExposureAlert.php">Exposure Alert</a></li>
                     <li class="nav-item dropdown"><a class="nav-link" href="#">Covid Informatics <i class="fas fa-angle-down ml-1"></i></a>
                         <ul class="dropdown-menu">
@@ -170,7 +171,11 @@ any other head content must come *after* these tags -->
                             <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/Covid-19Testing.php">Covid-19 Testing</a></li>
                             <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/VaccinatePoint.php">Vaccinate Points</a></li>
                         </ul> </li>
-                    <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/About.php">About</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="#">About <i class="fas fa-angle-down ml-1"></i></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/About.php">About Site</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://greyspots.tech/AboutData.php">About Data</a></li>
+                        </ul> </li>
                 </ul>
 
                 <!-- Navbar menu -->
@@ -558,7 +563,9 @@ any other head content must come *after* these tags -->
                             <ul>
                                 <li><a href="https://greyspots.tech">Home</a></li>
                                 <li><a href="https://greyspots.tech/SafetyGuard.php">Safety Guard</a></li>
+                                <li><a href="https://greyspots.tech/CrowdAdvisor.php">Crowd Advisor</a></li>
                                 <li><a href="https://greyspots.tech/ExposureAlert.php">Exposure Alert</a></li>
+                                <li><a href="https://greyspots.tech/AboutData.php">Open Data</a></li>
                                 <li><a href="https://greyspots.tech/About.php">About</a></li>
                             </ul>
                         </div>

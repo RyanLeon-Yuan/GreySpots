@@ -14,31 +14,17 @@
     <!-- Style css -->
 
     <style rel="stylesheet">
-
     #location {
     appearance: auto;
     border-color: dimgray;
     }
 
     #tspot {
-        border-radius: 25px;
-        border: 2px solid dimgray;
+        border: 1px solid dimgray;
     }
-    #tspot:hover { 
-        /* transform: scale(1.05); */
-        border: 2px solid #a474cf;
-        box-shadow: 0 0 10px dimgray;
-
-
-    }
-    /* .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-        background-color: #color;
-    } */
     </style>
 
     <link rel="stylesheet" href="static/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="static/css/help.css">
-
     
     <script type="text/javascript" src="static/js/CrowdAdvisor.js"> </script>
     <script type="text/javascript" src="static/js/jquery.min.js"> </script>
@@ -120,9 +106,9 @@
                 <div class="col-12">
                     <div class="breadcrumb-content text-center">
                         <h2 class="m-0">Crowd Advisor</h2>
-                        <p>Crowd Advisor provides you with detailed information about specific places in the Melbourne City area. 
-                            All you need to do is select a prefered location from the drop-down list below. 
-                            You can check all the relevant information and safely plan your visits.</p>
+                        <p>With a simple and free subscription, you will receive an alert e-mail once there are
+                            potential Covid risks around you. This e-mail will inform you about the complete information
+                            you need to know and guide you to get tested as soon as possible.</p>
                     </div>
                 </div>
             </div>
@@ -136,15 +122,17 @@
                 <div class="col-12 col-md-8 col-lg-7">
                     <div class="intro text-center">
 
-                        <h3 class="mt-3 mb-0">Start by selecting a location in Melbourne:</h3>
-
+                        <h3 class="mt-3 mb-0">Search for Location</h3>
+                        <p>We will send you Email notification daily</p>
                     </div>
-            
-                        <select id= "location" onchange="selectLocation()">
+                    <!-- Item Form -->
+                    
+                    Location:
+                    <select id= "location" onchange="selectLocation()">
                         <option disabled selected>-- Select Location --</option>
                         <?php 
                             include "dbCon.php";
-                            $records = mysqli_query($conn, "Select distinct(sensor_name) from greyspots.Pedisterian_count order by sensor_name"); 
+                            $records = mysqli_query($conn, "Select distinct(sensor_name) from greyspots.Pedisterian_count"); 
                         ?>
                             
                         <?php while($data = mysqli_fetch_array($records)) { 
@@ -156,24 +144,9 @@
                         
                     </select>
 
-                    <div id = "tables" style = "visibility : hidden">
-                    
-
-                    
-
-                    
-
-                    <table id = "tspot">
-
-                        
-                        <Thead>
-                            <div class="help-tip">
-                            <p>Expected Pedestrian Count of the Street in a Day: 
-                            This table shows the average expected pedestrian population in their selected street in a day.</p>
-                            </div>
-                        </Thead>
+                    <table id = "tspot" name = "Extracting the Average population ( Pedestrian Count) in the selected place">
                         <thead>
-                        <th>Pedestrian Count</th>
+                        <th>Expected Pedestrian Count <br> of the Street in a Day</th>
                         </thead>
 
                         <tbody id = "resultA">
@@ -183,11 +156,7 @@
 
                     <table id = "tspot" name= "Extracting the Average population ( Pedestrian Count) in the selected place on a given day of the week">
                         <thead>
-                        <div class="help-tip">
-                            <p>Expected Pedestrian Count of the Street: This table shows the average expected pedestrian population in their selected street for each day of the week.
-</p>
-                            </div>
-                        <th>Pedestrian Count</th>
+                        <th>Expected Pedestrian Count <br> of the Street</th>
                         <th>Day of the Week </th>
                         </thead>
 
@@ -198,12 +167,8 @@
 
                     <table id = "tspot" name= "Extracting the top five  Rush hours in a day">
                         <thead>
-                        <div class="help-tip">
-                            <p>Expected Pedestrian Count: 
-                                This table shows the average expected pedestrian population ordered by most rush hours (top 5) for their selected street for a day. </p>
-                            </div>
-                        <th>Pedestrian Count</th>
-                        <th>Time of the Day</th>
+                        <th>Expected Pedestrian Count </th>
+                        <th>Time of the Day <br> (Top 5) </th>
                         </thead>
 
                         <tbody id = "resultC">
@@ -213,13 +178,8 @@
 
                     <table id = "tspot" name= "Extracting the top three best times of day to visit the selected place, excluding night hours">
                         <thead>
-                        <div class="help-tip">
-                            <p>Actual Pedestrian Count: 
-                                This table shows the actual pedestrian population ordered by least rush hours (top 3) 
-                                for their selected street (From morning 8 AM till night 10 PM)</p>
-                            </div>
-                        <th>Pedestrian Count</th>
-                        <th>Time of the Day</th>
+                        <th>Actual Pedestrian Count </th>
+                        <th>Time of Day</th>
                         </thead>
 
                         <tbody id = "resultD">
@@ -227,12 +187,12 @@
                         </tbody>
                     </table>
 
-
-                    </div>
-
                     <?php mysqli_close($conn);?>
 
-                   
+                    <p class="form-message"></p>
+                    <div class="intro text-center">
+                        <span>Please enter your name, email address, and the postcode in the following subscribe table, and click the Subscribe button. You will receive an daily email from us with the latest Covid-19 information associated with your postcode area.</span>
+                    </div>
                 </div>
             </div>
         </div>
