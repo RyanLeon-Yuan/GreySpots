@@ -171,6 +171,9 @@
                             <p>Expected Pedestrian Count of the Street in a Day: 
                             This table shows the average expected pedestrian population in their selected street in a day.</p>
                             </div>
+                            <th colspan="2" style="text-align:center;"  >
+                            <strong><h4>Expected Daily Pedestrain Count</h4></strong>
+                        </th>
                         </Thead>
                         <thead>
                         <th>Pedestrian Count</th>
@@ -187,6 +190,11 @@
                             <p>Expected Pedestrian Count of the Street: This table shows the average expected pedestrian population in their selected street for each day of the week.
 </p>
                             </div>
+                            <tr>
+                            <th colspan="2" style="text-align:center;" >
+                            <strong><h4>Expected Weekly Pedestrain Count</h4></strong>
+                        </th>
+                        </tr>
                         <th>Pedestrian Count</th>
                         <th>Day of the Week </th>
                         </thead>
@@ -202,6 +210,14 @@
                             <p>Expected Pedestrian Count: 
                                 This table shows the average expected pedestrian population ordered by most rush hours (top 5) for their selected street for a day. </p>
                             </div>
+
+                            </div>
+                            <tr>
+                            <th colspan="2" style="text-align:center;" >
+                            <strong><h4>Top Rush Hours</h4></strong>
+                        </th>
+                        </tr>
+
                         <th>Pedestrian Count</th>
                         <th>Time of the Day</th>
                         </thead>
@@ -214,10 +230,17 @@
                     <table id = "tspot" name= "Extracting the top three best times of day to visit the selected place, excluding night hours">
                         <thead>
                         <div class="help-tip">
-                            <p>Actual Pedestrian Count: 
-                                This table shows the actual pedestrian population ordered by least rush hours (top 3) 
+                            <p>Expected Pedestrian Count: 
+                                This table shows the expected average pedestrian population ordered by least rush hours (top 3) 
                                 for their selected street (From morning 8 AM till night 10 PM)</p>
                             </div>
+
+                            </div>
+                            <tr>
+                                <th colspan="2" style="text-align:center;" >
+                            <strong><h4>Top Safe Hours</h4></strong>
+                        </th>
+                        </tr>
                         <th>Pedestrian Count</th>
                         <th>Time of the Day</th>
                         </thead>
