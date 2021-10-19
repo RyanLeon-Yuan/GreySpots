@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group mt-3">
-                                    <input type="text" class="form-control" name="name" pattern="[ 0-9A-Za-z]+" placeholder="name"
+                                    <input type="text" class="form-control" name="name" pattern="[ 0-9A-Za-z]+" placeholder="Nicname"
                                            required="required"/>
                                 </div>
                             </div>
@@ -215,8 +215,8 @@
     <div id="menu" class="modal fade p-0">
         <div class="modal-dialog dialog-animated">
             <div class="modal-content h-100">
-                <div class="modal-header" data-dismiss="modal">
-                    Menu <i class="far fa-times-circle icon-close"></i>
+                <div class="modal-header" data-dismiss="modal" style="color:#09080d">
+                    Menu <i class="far fa-times-circle icon-close" style="color:#09080d"></i>
                 </div>
                 <div class="menu modal-body">
                     <div class="row w-100">

@@ -99,8 +99,8 @@
     <!-- ***** About Area Start ***** -->
     <div>
         <div class="container text-center">
+			<img width="200" src="static/picture/GS.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">GreySpots</span></p>
-            <img width="200" src="static/picture/GS.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">People are becoming increasingly anxious as the Covid-19 outbreak continues to affect our society. Even
                 when there are no lockdown restrictions, it is sometimes risky to go out for dinner. There are risks of
                 visiting a COVID-19 exposure site or going into a crowded area with a high possibility of having close
@@ -115,42 +115,42 @@
     <!-- *****Function Intro Area Start***** -->
     <div>
         <div class="container text-center">
+			<img width="200" src="static/picture/logo3.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Safety Guard</span></p>
-            <img width="200" src="static/picture/logo3.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">An integrated map platform where you can search for the Covid risks, testing points and vaccine center related to your location.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
 		</div>
 		<div class="container text-center">
+			<img width="200" src="static/picture/CA.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Crowd Advisor</span></p>
-            <img width="200" src="static/picture/CA.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">Crowd Advisor provides you with detailed information about specific places in the Melbourne City area. All you need to do is select a preferred location from the drop-down list. You can check all the relevant information and safely plan your visits.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
 		</div>
         <div class="container text-center">
+			<img width="200" src="static/picture/exposure.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Exposure Sites</span></p>
-            <img width="200" src="static/picture/exposure.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">This is the list of Covid19 exposure sites in Victoria region. The list is regularly updated based on
                 Victorian government’s official website.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
 		</div>
         <div class="container text-center">
+		    <img width="200" src="static/picture/alert.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Exposure Alert</span></p>
-            <img width="200" src="static/picture/alert.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">With a simple and free subscription, you will receive an alert e-mail once there are potential Covid
                 risks around you. This e-mail will inform you about the complete information you need to know and guide
                 you to get tested as soon as possible.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
 		</div>
         <div class="container text-center">
+			<img width="200" src="static/picture/test.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Covid Testing</span></p>
-            <img width="200" src="static/picture/test.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">Here you can find the nearest Covid testing points to your location. If you have been to any exposure
                 sites, it is necessary to get tested immediately.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
 		</div>
         <div class="container text-center">
+			<img width="200" src="static/picture/vaccine.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">Vaccine Points</span></p>
-            <img width="200" src="static/picture/vaccine.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">Here you can find the nearest Covid vaccine points to your location. Getting vaccinated is the best way
                 of protecting yourself and others.</span></p>
         <p style="margin-top:0pt; margin-bottom:8pt"><span style="-aw-import:ignore">&nbsp;</span></p>
@@ -160,8 +160,8 @@
     <!-- *****Function Intro Area End*****-->
     <div>
         <div class="container text-center">
+			 <img width="200" src="static/picture/Team logo.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:22pt"><span style="color:#B88BE4">TechHumans</span></p>
-            <img width="200" src="static/picture/Team logo.png" alt=""/>
             <p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:16pt"><span style="color:#ffffff">In TechHumans, we believe in Technology for Human Kind. We are a bunch of Master students aiming to kick
                 start our professional journey. We are enthusiastic about technology. Our team's core strength is our
                 spirit to work together, technical acumen and robust cultural background.</span></p>
@@ -238,8 +238,8 @@
     <div id="menu" class="modal fade p-0">
         <div class="modal-dialog dialog-animated">
             <div class="modal-content h-100">
-                <div class="modal-header" data-dismiss="modal">
-                    Menu <i class="far fa-times-circle icon-close"></i>
+                <div class="modal-header" data-dismiss="modal" style="color:#09080d">
+                    Menu <i class="far fa-times-circle icon-close" style="color:#09080d"></i>
                 </div>
                 <div class="menu modal-body">
                     <div class="row w-100">

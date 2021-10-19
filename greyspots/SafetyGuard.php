@@ -618,8 +618,8 @@ any other head content must come *after* these tags -->
     <div id="menu" class="modal fade p-0">
         <div class="modal-dialog dialog-animated">
             <div class="modal-content h-100">
-                <div class="modal-header" data-dismiss="modal">
-                    Menu <i class="far fa-times-circle icon-close"></i>
+                <div class="modal-header" data-dismiss="modal" style="color:#09080d">
+                    Menu <i class="far fa-times-circle icon-close" style="color:#09080d"></i>
                 </div>
                 <div class="menu modal-body">
                     <div class="row w-100">
