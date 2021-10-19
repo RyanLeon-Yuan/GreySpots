@@ -59,7 +59,8 @@ $nnumexpo= $nneR->result;
 //echo $numexpo;
 
 
-$ddD = "Select distinct(DATE_FORMAT(data_date, '%d/%m/%Y')) as result  from COVID_POSTCODE_TABLE limit 1 ";
+//$ddD = "Select distinct(DATE_FORMAT(data_date, '%d/%m/%Y')) as result  from COVID_POSTCODE_TABLE limit 1 ";
+$ddD = "Select distinct(data_date) as result  from COVID_POSTCODE_TABLE limit 1 ";
 $dd = $db->prepare($ddD);
 $dd -> execute();
 $ddR = $dd->fetch(PDO::FETCH_OBJ);
